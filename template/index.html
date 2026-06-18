@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question pour toi ❤️</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Custom Fonts (Gochi Hand for handwritten & Inter for body) -->
+    <style>
+        @import url('[https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Inter:wght@400;700&display=swap](https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Inter:wght@400;700&display=swap)');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Soft background gradient effect */
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4f46e5 100%);
+            overflow: hidden; /* Prevents scrolling when the button moves */
+        }
+
+        /* Custom font for the question, makes it feel personal */
+        .font-question {
+            font-family: 'Gochi Hand', 'arial';
+        }
+
+        #no-button {
+            transition: left 0.10s ease, top 0.10s ease;
+            z-index: 10;
+        }
+
+        /* The "Yes" button will be on top if they overlap */
+        #yes-button {
+            position: relative;
+            z-index: 20;
+        }
+    </style>
+</head>
+<body class="text-white h-screen w-screen flex items-center justify-center p-4">
+
+    <!-- Main Content: The Question -->
+    <div id="main-content" class="bg-gray-900 bg-opacity-70 backdrop-blur-lg p-8 md:p-12 rounded-2xl shadow-2xl text-center max-w-lg w-full transition-all duration-500 ease-in-out transform scale-100 opacity-100">
+        <!-- Cute Opening GIF -->
+        <img src="../assets/pachicute.gif"
+             alt="Cute shy GIF"
+             class="w-48 h-48 mx-auto rounded-full mb-6 shadow-lg border-4 border-pink-400 object-cover">
+
+        <h1 class="font-question text-4xl md:text-5xl font-bold text-pink-400 mb-6">
+            Stéfen
+        </h1>
+        <p class="text-2xl md:text-3xl mb-2 font-question text-gray-200">
+            Juste une simple petite question pour toi
+        </p>
+
+        <p class="text-xl md:text-xl mb-10 font-question text-gray-200">
+            Mais vraiment touuuute petite
+        </p>
+
+        <p class="text-xl md:text-2xl mb-2 font-semibold text-white">
+            Est-ce que tu veux sortir avec moi ? Genre pour de vrai. Officiellement.
+        </p>
+
+        <p class="text-xl md:text-1xl mb-10 font-semibold text-white">
+            🥺👉👈
+        </p>
+
+        <!-- Button Container -->
+        <!-- Made 'relative' so the "No" button can move within it -->
+        <div class="relative flex flex-col sm:flex-row justify-center items-center gap-4 h-24">
+            <!-- The "Yes" Button -->
+            <button id="yes-button"
+                    class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg text-lg transition-all duration-300 transform hover:scale-110 shadow-lg">
+                Ouiiiiii! ❤️
+            </button>
+
+            <!-- The "No" Button (The one that moves) -->
+            <button id="no-button"
+                    class="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-8 rounded-lg text-lg transition-all duration-300 shadow-lg">
+                Non merci...
+            </button>
+        </div>
+    </div>
+
+    <!-- Success Message (Hidden) -->
+    <div id="success-message"
+         class="hidden bg-gray-900 bg-opacity-70 backdrop-blur-lg p-8 md:p-12 rounded-2xl shadow-2xl text-center max-w-lg w-full transition-all duration-500 ease-in-out transform scale-0 opacity-0">
+        <!-- Success/Love GIF -->
+        <img src="../assets/cute_ju.gif"
+             alt="Love GIF"
+             class="w-48 h-48 mx-auto rounded-full mb-6 shadow-lg border-4 border-green-400 object-cover">
+
+        <h1 class="font-question text-5xl md:text-6xl font-bold text-green-400 mb-4">
+            Hihihihihi
+        </h1>
+        <h2 class="text-3xl md:text-4xl font-semibold text-white mb-6">
+            ❤️❤️❤️
+        </h2>
+        <p class="text-2xl md:text-3xl font-question text-gray-200 mb-8">
+            Enfin "Us". Avec le meilleur trope : best friends to lovers !
+        </p>
+        <p class="text-lg text-gray-300">
+            Love you 😘
+        </p>
+        
+    </div>
+
+    <script>
+        const yesButton = document.getElementById('yes-button');
+        const noButton = document.getElementById('no-button');
+        const mainContent = document.getElementById('main-content');
+        const successMessage = document.getElementById('success-message');
+
+        // Funny texts for the "No" button
+        const noButtonTexts = [
+            "Non merci...",
+            "Ah bon ? :(",
+            "Stpppp",
+            "Allez...",
+            "Dis ouiii :(",
+        ];
+
+        let yesButtonScale = 1; // Initial scale of the "Yes" button
+        let noButtonTextIndex = 0; // Index for the "No" button text
+
+        // When the "Yes" button is clicked
+        yesButton.addEventListener('click', () => {
+            // Hide the main content
+            mainContent.classList.add('scale-0', 'opacity-0');
+
+            // Show the success message after 500ms
+            setTimeout(() => {
+                mainContent.classList.add('hidden');
+                successMessage.classList.remove('hidden', 'scale-0', 'opacity-0');
+                successMessage.classList.add('scale-100', 'opacity-100');
+            }, 500);
+        });
+
+    // Function to move the "No" button
+            function moveButton() {
+                const maxMove = 180;
+        
+                const container = noButton.parentElement; // container is positioned relative
+                const containerRect = container.getBoundingClientRect();
+                const buttonRect = noButton.getBoundingClientRect();
+        
+                // Current positions relative to container
+                let currentLeft = buttonRect.left - containerRect.left;
+                let currentTop = buttonRect.top - containerRect.top;
+        
+                let newX = currentLeft + (Math.random() * 2 - 1) * maxMove;
+                let newY = currentTop + (Math.random() * 2 - 1) * maxMove;
+        
+        // Marges de sécurité
+        const margin = 100;
+        
+                newX = Math.max(
+                    margin,
+                    Math.min(newX, containerRect.width - buttonRect.width - margin)
+                );
+        
+                newY = Math.max(
+                    margin,
+                    Math.min(newY, containerRect.height - buttonRect.height - margin)
+                );
+        
+                noButton.style.position = 'absolute';
+                noButton.style.left = `${newX}px`;
+                noButton.style.top = `${newY}px`;
+        
+        
+                // Agrandit le bouton "Oui"
+                yesButtonScale += 0.4;
+                yesButton.style.transform = `scale(${yesButtonScale})`;
+        
+                // Change le texte du bouton "Non"
+                noButtonTextIndex = (noButtonTextIndex + 1) % noButtonTexts.length;
+                noButton.innerText = noButtonTexts[noButtonTextIndex];
+            }
+
+        // Move the button when the mouse hovers over it
+        noButton.addEventListener('mouseover', moveButton);
+
+        // Move the button when it's clicked (for mobile devices)
+        noButton.addEventListener('click', moveButton);
+    </script>
+</body>
+</html>
