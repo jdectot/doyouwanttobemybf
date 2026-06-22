@@ -110,7 +110,6 @@
 
         // Funny texts for the "No" button
         const noButtonTexts = [
-            "Non merci...",
             "Ah bon ? :(",
             "Stpppp",
             "Allez...",
@@ -135,7 +134,7 @@
 
     // Function to move the "No" button
             function moveButton() {
-                const maxMove = 180;
+                const maxMove = 2000;
         
                 const container = noButton.parentElement; // container is positioned relative
                 const containerRect = container.getBoundingClientRect();
@@ -144,6 +143,7 @@
                 // Current positions relative to container
                 let currentLeft = buttonRect.left - containerRect.left;
                 let currentTop = buttonRect.top - containerRect.top;
+
         
                 let newX = currentLeft + (Math.random() * 2 - 1) * maxMove;
                 let newY = currentTop + (Math.random() * 2 - 1) * maxMove;
@@ -153,12 +153,12 @@
         
                 newX = Math.max(
                     margin,
-                    Math.min(newX, containerRect.width - buttonRect.width - margin)
+                    Math.min(newX, containerRect.width - buttonRect.width - margin)*2
                 );
         
                 newY = Math.max(
                     margin,
-                    Math.min(newY, containerRect.height - buttonRect.height - margin)
+                    Math.min(newY, containerRect.height - buttonRect.height - margin)*2
                 );
         
                 noButton.style.position = 'absolute';
